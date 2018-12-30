@@ -19,14 +19,25 @@ class table_functionality():
 
         return return_description
 
-    def query(field_names=[], query=" "):
-        # loads todo
+    def query(self,  field_names=[], query=" ", jsonify=False):
+        # loads todo:
         # 1.basic: select * from table
         # 2. select a,b from table
         # 3. select a,b from table where a =b
         # 4. select a,b from table where a=b, b > c
         # 5. goes wild. using multiple tables...
-        return "hi"
+
+        if field_names == []:
+            col_names = "*"
+        else:
+            col_names = ",".join(['"' + fname + '"' for fname in field_names])
+        query = "select {col_names} from {table_name} ".format(col_names=col_names, table_name=self.table_name)
+        print query
+        cur = self.dbconn.conn.cursor()
+        cur.execute(query)
+        cur.execute(query)
+        vals = cur.fetchall()
+        return vals
 
     def is_valid_data(self, data, ignore_extra=True):
         # To-do maintain a extensive list of possible python to coressponding sql and vice-versa type mapping and use for natching.
@@ -55,9 +66,9 @@ class table_functionality():
         }
 
         for row_ in data.keys():
-            """print row_
+            print row_
             print type(data[row_]).__name__
-            print reverse_python_type_matching[table_schema[row_]['data-type']]"""
+            print reverse_python_type_matching[table_schema[row_]['data-type']]
 
             if row_ in table_schema.keys():
                 if type(data[row_]).__name__ not in reverse_python_type_matching[table_schema[row_]['data-type']]:
@@ -98,6 +109,8 @@ class table_functionality():
 
         query_string = "INSERT INTO {TABLE_NAME}  ( ".format(TABLE_NAME=self.table_name) + ",".join(col_name for col_name in insert_dict.keys()) + \
             " ) values ( " + ",".join(str(insert_dict[col_name]) for col_name in insert_dict.keys()) + ")"
+
+        print query_string
 
         cur = self.dbconn.conn.cursor()
         cur.execute(query_string)
