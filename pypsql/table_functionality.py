@@ -32,7 +32,7 @@ class table_functionality():
         else:
             col_names = ",".join(['"' + fname + '"' for fname in field_names])
         query = "select {col_names} from {table_name} ".format(col_names=col_names, table_name=self.table_name)
-        print query
+        # print query
         cur = self.dbconn.conn.cursor()
         cur.execute(query)
         cur.execute(query)
@@ -66,9 +66,9 @@ class table_functionality():
         }
 
         for row_ in data.keys():
-            print row_
+            """print row_
             print type(data[row_]).__name__
-            print reverse_python_type_matching[table_schema[row_]['data-type']]
+            print reverse_python_type_matching[table_schema[row_]['data-type']]"""
 
             if row_ in table_schema.keys():
                 if type(data[row_]).__name__ not in reverse_python_type_matching[table_schema[row_]['data-type']]:
@@ -110,7 +110,7 @@ class table_functionality():
         query_string = "INSERT INTO {TABLE_NAME}  ( ".format(TABLE_NAME=self.table_name) + ",".join(col_name for col_name in insert_dict.keys()) + \
             " ) values ( " + ",".join(str(insert_dict[col_name]) for col_name in insert_dict.keys()) + ")"
 
-        print query_string
+        # print query_string
 
         cur = self.dbconn.conn.cursor()
         cur.execute(query_string)

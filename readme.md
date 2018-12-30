@@ -9,10 +9,14 @@ I started development using noSQL databases and shifting from using mongodb (wit
 [`psycopg2 2.7.6.1`](https://pypi.org/project/psycopg2/) and above, should probably work with older versions as well, this was the latest version at the time I made this.
 ##### Usage:
 
+0. Import: 
+	`from pypsql import client
+`
+
 1. Open a new connection:
  
 	```
-    mycon  = db_connection(user = "user",  password = "pwd", host = "127.0.0.1",  port = "5432",    database_name  = 	"mydb")
+    mycon  = client.db_connection(user = "user",  password = "pwd", host = "127.0.0.1",  port = "5432",    database_name  = 	"mydb")
     ``` 
     This is same as using:
     ```
@@ -22,7 +26,7 @@ I started development using noSQL databases and shifting from using mongodb (wit
     in PyMongo.
 2. Create a new table:
 	```
-	mycon.make_table(table_name = "my_new_table", , table_schema ={"id":"int","name":"str"})
+	mycon.make_table(table_name = "my_new_table", table_schema ={"id":"int","name":"str"})
     ```
     The table schema is a dictionary with keys as coumn names, and values as type of that column name. The type
     is of string type and can either be generic python types or a complex postgresql type.
@@ -36,10 +40,10 @@ I started development using noSQL databases and shifting from using mongodb (wit
 4. Inserting: 
 
 	```
-    tableclient.insert({"id" : 1,"model" : "abcd"})
+    client.insert({"id" : 1,"model" : "abcd"})
 	```
 5. Querying:
 	```
-    values = tableclient.query(field_names= ["id"]) # GET 'id' FIELD.
-    values = tableclient.query( )  					# GET ALL FIELD.
+    values = client.query(field_names= ["id"]) # GET 'id' FIELD.
+    values = client.query( )  					# GET ALL FIELD.
     ```
